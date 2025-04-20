@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help & Support</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Raise a Ticket</h1>
+        <form action="/help" method="POST">
+            <textarea name="message" rows="6" cols="60" placeholder="Describe your issue or complaint..." required></textarea><br>
+            <input type="submit" value="Submit Ticket">
+        </form>
+        <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

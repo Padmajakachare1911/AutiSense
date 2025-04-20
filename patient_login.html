@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body.patient-page {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            background: linear-gradient(to right, #e96443, #904e95);
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 80px auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+
+        form input[type="text"],
+        form input[type="password"] {
+            width: 90%;
+            padding: 14px;
+            margin: 10px 0;
+            font-size: 1.05rem;
+            border-radius: 6px;
+            border: none;
+        }
+
+        form input[type="submit"] {
+            background-color: #00cec9;
+            color: white;
+            font-size: 1.1rem;
+            padding: 12px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        label {
+            font-size: 1rem;
+        }
+
+        .google-login {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            background-color: white;
+            color: #444;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .google-login img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #81ecec;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="patient-page">
+    <div class="container">
+        <h1>Parent/Patient Login</h1>
+        <form action="/login" method="POST">
+            <input type="hidden" name="role" value="patient">
+            <input type="text" name="username" placeholder="Your Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <label><input type="checkbox" name="remember"> Remember Me</label><br>
+            <input type="submit" value="Login">
+        </form>
+
+        <!-- Google Login Button -->
+        <a href="{{ url_for('google.login') }}" class="google-login">
+            <img src="/static/images/google-logo.png" alt="Google"> Login with Google
+        </a>        
+
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

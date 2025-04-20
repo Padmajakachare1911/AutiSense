@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASD Screening Introduction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FFC371, #FF5F6D);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            margin: 0;
+            position: relative;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .user-icon {
+            position: absolute;
+            top: 20px;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .user-icon img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .user-icon.left {
+            left: 20px;
+        }
+
+        .user-icon.right {
+            right: 20px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            width: 270px;
+        }
+
+        .dropdown-menu h2 {
+            font-size: 1.5rem;
+            color: #74ebd5;
+            margin-bottom: 15px;
+        }
+
+        .dropdown-menu input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .dropdown-menu input[type="submit"],
+        .guest-login {
+            background-color: #1cb0f6;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .guest-login {
+            background-color: #00b894;
+        }
+
+        .dropdown-menu input[type="submit"]:hover,
+        .guest-login:hover {
+            background-color: #0f8ddf;
+        }
+
+        .dropdown-active {
+            display: block !important;
+        }
+
+        .register-section {
+            display: none;
+        }
+
+        .register-active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Doctor Login Icon -->
+    <a href="/login/doctor" class="user-icon left">
+        <img src="/static/images/doctor-icon.png" alt="Doctor Login" title="Doctor Login">
+    </a>
+
+    <!-- Patient Login Icon -->
+    <a href="/login/patient" class="user-icon right">
+        <img src="/static/images/patient-icon.png" alt="Patient Login" title="Patient Login">
+    </a>
+
+    <!-- Login/Register Dropdown -->
+    <div id="dropdown" class="dropdown-menu">
+        <div id="login-section">
+            <h2>Login</h2>
+            <form action="/login" method="POST">
+                <input type="hidden" id="login-role" name="role" value="patient">
+                <input type="text" name="username" placeholder="Enter your username" required>
+                <input type="password" name="password" placeholder="Enter your password" required>
+                <label><input type="checkbox" name="remember"> Remember Me</label>
+                <input type="submit" value="Sign In">
+                <p style="color: #ffffff; margin-top: 10px; cursor: pointer;" onclick="showForgotPassword()">Forgot Password?</p>
+                <p style="color: #ffffff; margin-top: 10px; cursor: pointer;" onclick="showRegister()">New User? Register</p>
+                <input type="button" class="guest-login" value="Login with Google">
+            </form>
+        </div>
+
+        <div id="forgot-password" class="register-section">
+            <h2>Forgot Password</h2>
+            <form action="/forgot_password" method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="submit" value="Send Reset Link">
+            </form>
+        </div>
+
+        <div id="register-section" class="register-section">
+            <h2>Register</h2>
+            <form action="/signup" method="POST">
+                <input type="text" name="fullname" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="specialization" placeholder="Specialization (if doctor)">
+                <input type="text" name="license" placeholder="Doctor ID (Only for doctors)">
+                <input type="password" name="password" placeholder="Create Password" required>
+                <input type="submit" value="Register">
+            </form>
+            <p style="color: #ffffff; margin-top: 10px; cursor: pointer;" onclick="showLogin()">Already have an account? Login</p>
+        </div>
+    </div>
+
+    <!-- Main Welcome Message -->
+    <div class="container">
+        <h1>Autism Screening Classification</h1>
+        <p>
+            Our tool assists doctors and parents in early ASD detection using behavioral data.
+        </p>
+        <a href="{{ url_for('index') }}" class="button">Start Screening</a>
+    </div>
+
+    <script>
+        function toggleLogin(event, role) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.add('dropdown-active');
+            showLogin();
+            const roleInput = document.getElementById('login-role');
+            if (roleInput) {
+                roleInput.value = role;
+            }
+        }
+
+        function showRegister() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('forgot-password').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+
+        function showForgotPassword() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('forgot-password').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('forgot-password').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        // Prevent dropdown from closing on inner clicks
+        document.getElementById('dropdown').addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+
+        // Close dropdown on outside click
+        document.body.addEventListener('click', function () {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.remove('dropdown-active');
+        });
+    </script>
+</body>
+</html>

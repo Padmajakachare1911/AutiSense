@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASD Screening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Background Animation */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(270deg, #74ebd5, #ACB6E5);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: #ffffff;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.75);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #74ebd5;
+            font-weight: bold;
+        }
+
+        form label {
+            display: block;
+            font-size: 1.1rem;
+            margin: 10px 0 5px;
+        }
+
+        form input {
+            padding: 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        form input[type="submit"] {
+            background-color: #1cb0f6;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0f8ddf;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ASD Screening</h1>
+        <form action="/predict" method="post">
+            <!-- Fields -->
+            <label for="age">Age:</label>
+            
+            <input type="number" id="age" name="age" placeholder="Enter age in years" min="5" max="100" required>
+        
+            <label for="gender">Gender (Male=1, Female=0):</label>
+            <input type="number" id="gender" name="gender" min="0" max="1" required>
+        
+            <label for="Had_jaundice_yes">Had Neonatal Jaundice (Yes=1, No=0):</label>
+            <input type="number" id="Had_jaundice_yes" name="Had_jaundice_yes" min="0" max="1" required>
+        
+            <label for="Rel_had_yes">Relative with Autism (Yes=1, No=0):</label>
+            <input type="number" id="Rel_had_yes" name="Rel_had_yes" min="0" max="1" required>
+
+            <label for="Has_poor_eye_contact">Has poor eye contact:</label>
+            <input type="number" id="Has poor eye contact" name="Has poor eye contact" min="0" max="1" required>
+
+            <label for="A1_Score">prefer to do things the same way over and over again:</label>
+            <input type="number" id="A1_Score" name="A1_Score" min="0" max="1" required>
+            
+            <label for="A2_Score">In a social group, I can easily keep track of several different people’s conversations:</label>
+            <input type="number" id="A2_Score" name="A2_Score" min="0" max="1" required>
+
+            <label for="A2_Score">notice patterns in things all the time.:</label>
+            <input type="number" id="A3_Score" name="A3_Score" min="0" max="1" required>
+
+            <label for="A4_Score">enjoy doing things spontaneously:</label>
+            <input type="number" id="A4_Score" name="A4_Score" min="0" max="1" required>
+
+            <label for="A5_Score">If there is an interruption, I can switch back to what he/she was doing very quickly:</label>
+            <input type="number" id="A5_Score" name="A5_Score" min="0" max="1" required>
+
+            <label for="A6_Score">like to collect information about categories of things (e.g., types of cars, birds, trains, plants):</label>
+            <input type="number" id="A6_Score" name="A6_Score" min="0" max="1" required>
+
+            <label for="A7_Score">like to carefully plan any activities I participate in:</label>
+            <input type="number" id="A7_Score" name="A7_Score" min="0" max="1" required>
+
+            <label for="A8_Score">find it very easy to play games with children that involve pretending:</label>
+            <input type="number" id="A8_Score" name="A8_Score" min="0" max="1" required>
+
+            <label for="A9_Score">find it difficult to work out people’s intentions:</label>
+            <input type="number" id="A9_Score" name="A9_Score" min="0" max="1" required>
+
+            <label for="A10_Score">usually concentrate more on the whole picture, rather than on the small details:</label>
+            <input type="number" id="A10_Score" name="A10_Score" min="0" max="1" required>
+
+            <input type="reset" value="Clear">
+
+            <!-- Add other inputs here -->
+
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+</body>
+</html>
+

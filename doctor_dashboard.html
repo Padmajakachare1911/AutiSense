@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .welcome-message {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 30px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .motivation {
+            font-size: 1rem;
+            color: #9ae8f2;
+            text-align: right;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .card {
+            background-color: #ffffff10;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            0% {opacity: 0;}
+            100% {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome Dr. {{ user }}</h1>
+
+        <div class="welcome-message">
+            {{ random_welcome }}
+        </div>
+        <div class="motivation">
+            "{{ random_quote }}"
+        </div>
+
+        <div class="section-title">📌 Your Goals</div>
+        <div class="card">Stay updated with patient evaluations and consultations.</div>
+
+        <div class="section-title">👥 Patient Section</div>
+        {% for upload in uploads %}
+        <div class="card">
+            <strong>Patient:</strong> {{ upload.username }}<br>
+            <strong>Status:</strong> {{ upload.status }}<br>
+            <strong>Description:</strong> {{ upload.description }}<br>
+            {% if upload.video_filename %}
+                <video width="300" controls>
+                    <source src="{{ url_for('static', filename='../uploads/' + upload.video_filename) }}" type="video/mp4">
+                </video><br>
+            {% endif %}
+            {% if upload.image_filename %}
+                <img src="{{ url_for('static', filename='../uploads/' + upload.image_filename) }}" width="150"><br>
+            {% endif %}
+            <form action="/update_status/{{ upload.id }}" method="POST">
+                <label>Update Status:</label>
+                <select name="status">
+                    <option value="accepted">Accept for Assessment</option>
+                    <option value="rejected">Reject</option>
+                </select><br>
+                <textarea name="doctor_response" placeholder="Add response or home suggestions..." required></textarea><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

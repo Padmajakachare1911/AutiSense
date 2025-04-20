@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome {{ user }}</h1>
+
+        <h2>Upload Video/Image + Description</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label>Description:</label><br>
+            <textarea name="description" rows="4" cols="60" placeholder="Describe your child’s behavior..." required></textarea><br>
+            <label>Upload Video:</label>
+            <input type="file" name="video" accept="video/*"><br>
+            <label>Upload Image:</label>
+            <input type="file" name="image" accept="image/*"><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h2>Your Submissions</h2>
+        {% for upload in uploads %}
+        <div class="card">
+            <strong>Status:</strong> {{ upload.status }}<br>
+            <strong>Description:</strong> {{ upload.description }}<br>
+            {% if upload.video_filename %}
+                <video width="300" controls>
+                    <source src="{{ url_for('static', filename='../uploads/' + upload.video_filename) }}" type="video/mp4">
+                </video><br>
+            {% endif %}
+            {% if upload.image_filename %}
+                <img src="{{ url_for('static', filename='../uploads/' + upload.image_filename) }}" width="150"><br>
+            {% endif %}
+            {% if upload.status == 'rejected' %}
+                <p style="color: orange;">Doctor’s Suggestion: {{ upload.doctor_response }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
